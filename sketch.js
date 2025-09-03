@@ -164,8 +164,8 @@ function draw() {
         ) {
             if (obj.type === POSITIVE) {
                 score += 10
-                hopeMeter = min(hopeMeter + 5, 100)
-                moodLevel = min(moodLevel + 5, 100)
+                hopeMeter = min(hopeMeter + 5, 1000)
+                moodLevel = min(moodLevel + 5, 1000)
             } else {
                 score -= 5
                 hopeMeter = max(hopeMeter - 10, 0)
