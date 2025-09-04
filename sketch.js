@@ -15,6 +15,7 @@ let paused = false
 let brainImg
 let shownFacts = new Set()
 let gameTimer = 0
+let gameStarted = false
 
 // NOTE : what if everytime player catches fallingObjects/emojis the emoji gives out a definition of what the neurotransmitter does //
 
@@ -26,18 +27,18 @@ let NEGATIVE = "negative"  // the way im not using semi colons //
 
 //positive orb //
 let positiveOrbs = [
-    {label: "dopamine", emoji: "🎗️", color: "#f0f5bc", fact: "dopamine gives you pleasure, reward, and motivation" }, //make sure to label them so this can be a learning game abt neurotransmitters //
-    {label: "serotonin", emoji: "🌿", color: "#ccebddff", fact: "serotonin regulates sleep and mood" },
-    {label: "endorphins", emoji: "☺️", color: "#a3e0ff", fact: "endorphins induces euphoria and well-being" },
-    {label: "oxytocin", emoji: "💗", color: "#f7a0d3ff", fact: "oxytocin promotes bonding and trust, also known as the 'love hormone'" },
+    {label: "dopamine", emoji: "🎗️", color: "#f0f5bc", strokeColor: "#ecdc47ff", fact: "dopamine gives you pleasure, reward, and motivation" }, //make sure to label them so this can be a learning game abt neurotransmitters //
+    {label: "serotonin", emoji: "🌿", color: "#ccebddff", strokeColor: "#7aeb96ff", fact: "serotonin regulates sleep and mood" }, 
+    {label: "endorphins", emoji: "☺️", color: "#a3e0ff", strokeColor: "#6795f7ff", fact: "endorphins induces euphoria and well-being" },
+    {label: "oxytocin", emoji: "💗", color: "#f7a0d3ff", strokeColor: "#f36fbcff", fact: "oxytocin promotes bonding and trust, also known as the 'love hormone'" },
 ]
 
 //negative orb //
 let negativeOrbs = [
-    {label: "cortisol", emoji: "🔥", color:"#9e160dff", fact:"cortisol is the primary stress hormone" },
-    {label: "anxiety", emoji: "😩", color: "#af4102ff", fact: "anxiety is the feeling of worry or unease" },
-    {label: "despair", emoji: "💔", color:"#91145dff", fact: "despair is the state of hopelessness" },
-    {label: "stress", emoji: "😓", color : "#353b9eff", fact: "stress ellicits the feeling of mental pressure" },
+    {label: "cortisol", emoji: "🔥", color:"#9e160dff", strokeColor: "rgba(90, 4, 1, 1)", fact:"cortisol is the primary stress hormone" },
+    {label: "anxiety", emoji: "😩", color: "#af4102ff", strokeColor: "rgba(133, 49, 0, 1)", fact: "anxiety is the feeling of worry or unease" },
+    {label: "despair", emoji: "💔", color:"#91145dff", strokeColor: "rgba(107, 3, 60, 1)", fact: "despair is the state of hopelessness" },
+    {label: "stress", emoji: "😓", color : "#353b9eff", strokeColor: "rgba(27, 13, 109, 1)", fact: "stress ellicits the feeling of mental pressure" },
 ]
 
 function preload() {
@@ -75,6 +76,12 @@ function setup() {
 }
 
 function keyPressed() {
+         
+         if(!gameStarted && key === ' ') {
+            gameStarted = true
+            return
+        }
+
         if ((gameOver || gameWon)&&(key === 'r' || key === 'R')) {
             resetGame()
         }
@@ -112,7 +119,38 @@ function resetGame() {
 
     
 function draw() {
-    background("#bad3f0ff")
+
+    if (gameStarted) {
+        background("rgba(255, 206, 233, 1)")
+        fill(255)
+        textAlign(CENTER, CENTER)
+        textSize(32)
+        stroke("rgba(224, 126, 167, 1)")
+        strokeWeight(2)
+        text("Catcher Game", width/2, height/2 - 60)
+
+        noStroke()
+        textSize(16)
+        fill(50)
+        text("instructions:", width/2, height/2 - 20)
+        text("arrow keys to move", width/2, height/2 + 10)
+        text("catch positive orbs for hope", width/2, height/2 + 40)
+        text("avoid negative orbs", width/2, height/2 + 70)
+
+        fill("rgba(250, 105, 218, 1)")
+        textSize(18)
+        text("press space to start", width/2, height/2 + 120)
+
+        return
+
+    }
+
+
+
+
+
+
+    background("#a7d0ffff")
     
     gameTimer += 1 / 60 // seconds
 
@@ -163,9 +201,9 @@ function draw() {
         strokeWeight(2)
         text("you win!", width / 2, height / 2 - 20)
         textSize(24)
-        text("Final Score:" + score, width / 2, height / 2 + 20)
-        text("Hope Meter:" + hopeMeter, width / 2, height / 2 + 50)
-        text("Mood Level:" + moodLevel, width / 2, height / 2 + 80)
+        text("final Score:" + score, width / 2, height / 2 + 20)
+        text("hope Meter:" + hopeMeter, width / 2, height / 2 + 50)
+        text("mood Level:" + moodLevel, width / 2, height / 2 + 80)
         textSize(14)
         text("you're doing amazing! 💗", width / 2, height - 80)
         return
@@ -198,27 +236,31 @@ function draw() {
          const maxMood = 100
        
        // hope meter 
-        fill("#f7a4dff")
+        fill("#ffffffff")
         rect(30, 50, 200, 20)
-        fill("#bdffa3ff")
+        fill("#a7f887ff")
         rect(30, 50, 200 * (hopeMeter / maxHope), 20)
+
         fill(0)
         textSize(14)
         textFont('Comic Sans MS')
         fill(255)
+
         stroke("#72e743ff")
         strokeWeight(2)
         text("hope" + hopeMeter, 130, 60)
 
         // mood level
-        fill("#b1a4f7ff")
+        fill("#b4a0d4ff")
         rect(30, 80, 200, 20)
-        fill("#f7a4dff")
+        fill("#ffffffff")
         rect(30, 80, 200 * (moodLevel / maxMood), 20)
+
         fill(0)
         textSize(14)
         textFont('Comic Sans MS')
         fill(255)
+        
         stroke("#8c7af1ff")
         strokeWeight(2)
         text("mood" + moodLevel, 130, 90)
@@ -230,9 +272,6 @@ function draw() {
 
          //catcher
     fill("#fcbbee")
-    textSize(36)
-    textFont('Comic Sans MS')
-    fill(255)
     stroke("#e65abeff")
     strokeWeight(2)
     rect(catcherX, catcherY, catcherWidth, catcherHeight, 10) }
@@ -290,7 +329,13 @@ function draw() {
          //orb 
         fill(obj.color)
         ellipse(obj.x + objectSize / 2, obj.y + objectSize / 2, objectSize)
+        stroke(obj.strokeColor)
+        strokeWeight()
+        fill(obj.color)
+        ellipse(obj.x + objectSize / 2, obj.y + objectSize / 2, objectSize)
+
         fill("#e9a7dff")
+        noStroke()
         textSize(14)
         text(obj.emoji || obj.label, obj.x + objectSize / 2, obj.y + objectSize / 2)
     }
