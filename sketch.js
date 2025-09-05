@@ -167,8 +167,6 @@ function draw() {
         obj.speed = min(obj.speed + 0.00001, 6)
     }
 
-   // if (brainImg) 
-       // image (brainImg, 10, 10, 40, 40)
     
 
     fill("#caadebff")
@@ -177,14 +175,12 @@ function draw() {
 
     if (paused) {
 
-         fill("rgba(255, 255, 255, 0.2)")
-         rect(0,0,0,0,0.7)
-        image(brainImg, 50, 50, 40, 40)
+         fill("rgba(0, 0, 0, 0.15)")
+         rect(0, 0, width, height)
+       
         let brainSize = 120
-        image(brainImg, width/2, height/2 + 60)
+        image(brainImg, width/2, height/2 - 20)
 
-        fill("rgba(0,0,0,0.7)")
-        rect(0, 0, width, height)
 
         fill(255)
         textSize(16)
