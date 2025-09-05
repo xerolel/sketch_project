@@ -12,10 +12,13 @@ let gameOver = false
 let gameWon = false
 let fact = ""
 let paused = false
-let brainImg
 let shownFacts = new Set()
 let gameTimer = 0
 let gameStarted = false
+let bgImg
+let brainImg
+let brainSize = 120 
+
 
 // NOTE : what if everytime player catches fallingObjects/emojis the emoji gives out a definition of what the neurotransmitter does //
 
@@ -27,10 +30,10 @@ let NEGATIVE = "negative"  // the way im not using semi colons //
 
 //positive orb //
 let positiveOrbs = [
-    {label: "dopamine", emoji: "🎗️", color: "#f0f5bc", strokeColor: "#ecdc47ff", fact: "dopamine gives you pleasure, reward, and motivation" }, //make sure to label them so this can be a learning game abt neurotransmitters //
+    {label: "dopamine", emoji: "🎗️", color: "#f0f5bc", strokeColor: "#ecdc47ff", fact: "dopamine gives you pleasure and motivation" }, //make sure to label them so this can be a learning game abt neurotransmitters //
     {label: "serotonin", emoji: "🌿", color: "#ccebddff", strokeColor: "#7aeb96ff", fact: "serotonin regulates sleep and mood" }, 
     {label: "endorphins", emoji: "☺️", color: "#a3e0ff", strokeColor: "#6795f7ff", fact: "endorphins induces euphoria and well-being" },
-    {label: "oxytocin", emoji: "💗", color: "#f7a0d3ff", strokeColor: "#f36fbcff", fact: "oxytocin promotes bonding and trust, also known as the 'love hormone'" },
+    {label: "oxytocin", emoji: "💗", color: "#f7a0d3ff", strokeColor: "#f36fbcff", fact: "oxytocin promotes bonding and trust." },
 ]
 
 //negative orb //
@@ -43,7 +46,10 @@ let negativeOrbs = [
 
 function preload() {
     // variable //
-    // brainImg = loadImage('brain.png.webp')
+
+ bgImg = loadImage("background.png")
+  brainImg = loadImage("brain.gif");
+    
  
 }
 
@@ -120,7 +126,16 @@ function resetGame() {
     
 function draw() {
 
-    if (gameStarted) {
+ 
+ image(bgImg, 0, 0, width, height)
+
+ drawCatcher()
+ drawFallingObjects()
+
+
+
+
+    if (!gameStarted) {
         background("rgba(255, 206, 233, 1)")
         fill(255)
         textAlign(CENTER, CENTER)
@@ -131,7 +146,7 @@ function draw() {
 
         noStroke()
         textSize(16)
-        fill(50)
+        fill("rgba(116, 105, 153, 1)")
         text("instructions:", width/2, height/2 - 20)
         text("arrow keys to move", width/2, height/2 + 10)
         text("catch positive orbs for hope", width/2, height/2 + 40)
@@ -144,19 +159,12 @@ function draw() {
         return
 
     }
-
-
-
-
-
-
-    background("#a7d0ffff")
     
     gameTimer += 1 / 60 // seconds
 
     // increasing the falling speed
     for (let obj of fallingObjects) {
-        obj.speed = min(obj.speed + 0.01, 6)
+        obj.speed = min(obj.speed + 0.00001, 6)
     }
 
    // if (brainImg) 
@@ -168,14 +176,23 @@ function draw() {
     text(levelName, width / 2, 30)
 
     if (paused) {
+
+         fill("rgba(255, 255, 255, 0.2)")
+         rect(0,0,0,0,0.7)
+        image(brainImg, 50, 50, 40, 40)
+        let brainSize = 120
+        image(brainImg, width/2, height/2 + 60)
+
         fill("rgba(0,0,0,0.7)")
         rect(0, 0, width, height)
+
         fill(255)
         textSize(16)
         textAlign(CENTER, CENTER)
         text(fact || "no fact available", width/2, height/2 - 20)
         fill("rgba(255, 255, 255, 0.2)")
         textFont('Comic Sans MS')
+
         stroke(200)
         strokeWeight(2)
         text("press space to continue", width/2, height/2 + 20)
@@ -193,6 +210,7 @@ function draw() {
     }
     // game won
     if (gameWon) {
+        background ("rgba(255, 249, 158, 1)")
         fill("#f7a4dfff")
         textSize(36)
         textFont('Comic Sans MS')
@@ -212,6 +230,7 @@ function draw() {
     // game over
 
       if (gameOver) {
+        background("rgba(144, 146, 252, 1)")
         fill("#f7a4dfff")
         textSize(36)
         textFont('Comic Sans MS')
@@ -331,8 +350,6 @@ function draw() {
         ellipse(obj.x + objectSize / 2, obj.y + objectSize / 2, objectSize)
         stroke(obj.strokeColor)
         strokeWeight()
-        fill(obj.color)
-        ellipse(obj.x + objectSize / 2, obj.y + objectSize / 2, objectSize)
 
         fill("#e9a7dff")
         noStroke()
