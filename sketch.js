@@ -66,7 +66,10 @@ function createFallingObject() {
 }
 
 function setup() {
-    createCanvas(500, 600)
+    var canvas = createCanvas(500, 600)
+    var canvasX = (windowWidth - width) / 2;
+    var canvasY = (windowHeight - height) / 2;
+    canvas.position(canvasX, canvasY);
     catcherX = width / 2
     catcherY = height - 50
     frameRate(60)
@@ -238,6 +241,7 @@ function draw() {
         text("final score:" + score, width / 2, height / 2 + 20)
         text("hope meter:" + hopeMeter, width / 2, height / 2 + 50)
         text("mood level:" + moodLevel, width / 2, height / 2 + 80)
+        text("press r to restart", width / 2, height / 2 + 120)
         textSize(14)
         text("hope is a muscle, small choices and thoughts", width / 2, height - 60)
         text("can help rewire the brain. you're doing great. 💗", width / 2, height - 40)
