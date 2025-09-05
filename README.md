@@ -1,0 +1,1 @@
+hi! this is a project i produced to really flesh out the dreamy essence of our neurons. this game should help you understand positive and negative neurotransmitters, as well as be a competitive collector style game to better retain the info you just learned! i hope you enjoy <3
